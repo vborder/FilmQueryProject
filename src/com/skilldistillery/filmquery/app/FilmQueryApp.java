@@ -42,12 +42,12 @@ public class FilmQueryApp {
 			System.out.println("2. Look for a film by a search keyword ");
 			System.out.println("3. Exit the application ");
 			int selection = input.nextInt();
-			
+
 			if (selection == 1) {
 				System.out.println("Enter the film ID: ");
 				int filmID = input.nextInt();
 				Film film = null;
-				
+
 				try {
 					film = db.findFilmById(filmID);
 					if (film != null) {

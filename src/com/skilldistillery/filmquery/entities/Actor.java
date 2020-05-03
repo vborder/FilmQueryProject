@@ -94,7 +94,7 @@ public class Actor {
 	@Override
 	public String toString() {
 		String r = "Actor id: " + id + "\n" + "Name: " + firstName + " " + lastName + "\n";
-		
+
 		return r;
 	}
 }

@@ -124,11 +124,11 @@ public class Film {
 	public List<Actor> getActors() {
 		return actors;
 	}
-	
+
 	public void setActors(List<Actor> actors) {
 		this.actors = actors;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -216,12 +216,13 @@ public class Film {
 
 	@Override
 	public String toString() {
-		String r = 
-		 "Film id: " + id + "\n" + "Title: " + title + "\n" + "Description: " + description + "\n" + "Release year: " + releaseYear
-				+ "\n" + "Language: " + language + "\n";
+		String r = "Film id: " + id + "\n" + "Title: " + title + "\n" + "Description: " + description + "\n"
+				+ "Release year: " + releaseYear + "\n" + "Language: " + language + "\n";
+		
 		for (Actor actor : actors) {
 			r += "\n" + actor;
 		}
+		
 		return r;
 	}
 }
