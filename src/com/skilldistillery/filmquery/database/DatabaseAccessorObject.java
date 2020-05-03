@@ -57,7 +57,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		String user = "student";
 		String pass = "student";
-		String sql = "SELECT id, first_name, last_name FROM actor WHERE id = ?";
+		String sql = "SELECT actor.id, actor.first_name, actor.last_name, title FROM actor "
+				+ "JOIN film_actor ON actor_id = actor.id"
+				+ "JOIN film on film_actor.film_id = film.id"
+				+ "WHERE actor.id = ?";
 
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 
@@ -70,6 +73,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			actor.setId(actorResult.getInt("id"));
 			actor.setFirstName(actorResult.getString("first_name"));
 			actor.setLastName(actorResult.getString("last_name"));
+//			actor.setFilms(;
+			
+			
 		}
 
 		return actor;
@@ -80,7 +86,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		
 		String user = "student";
 		String pass = "student";
-		String sql = "SELECT film.* FROM film WHERE film.title LIKE ? OR film.description LIKE ?";
+		String sql = "SELECT film.*, name FROM film JOIN language ON film.language_id = language.id "
+				+ "WHERE film.title LIKE ? OR film.description LIKE ?";
 		
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 		
@@ -97,7 +104,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			film.setReleaseYear(filmResult.getInt("release_year"));
 			film.setRating(filmResult.getString("rating"));
 			film.setDescription(filmResult.getString("description"));
-			film.setLanguageId(filmResult.getInt("language_id"));
+			film.setLanguage(filmResult.getString("name"));
 			film.setActors(findActorsByFilmId(film.getId()));
 		}
 		
@@ -114,7 +121,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			String sql = "SELECT actor.id, actor.first_name, actor.last_name "
-					+ " FROM film JOIN film_actor ON film.id = film_actor.film_id " + "JOIN actor on film_actor.actor_id = actor.id " 
+					+ " FROM film JOIN film_actor ON film.id = film_actor.film_id " 
+					+ "JOIN actor on film_actor.actor_id = actor.id " 
 					+ " WHERE film_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);

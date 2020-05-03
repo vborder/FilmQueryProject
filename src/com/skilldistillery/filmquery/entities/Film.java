@@ -27,7 +27,6 @@ public class Film {
 
 	public int getId() {
 		return id;
-
 	}
 
 	public Film() {
@@ -36,7 +35,6 @@ public class Film {
 
 	public Film(int filmId, String title2, String desc, short releaseYear2, int langId, int rentDur, double rate,
 			int length2, double repCost, String rating2, String features) {
-		
 	}
 
 	public void setId(int id) {
@@ -226,5 +224,4 @@ public class Film {
 		}
 		return r;
 	}
-	
 }

@@ -42,10 +42,12 @@ public class FilmQueryApp {
 			System.out.println("2. Look for a film by a search keyword ");
 			System.out.println("3. Exit the application ");
 			int selection = input.nextInt();
+			
 			if (selection == 1) {
 				System.out.println("Enter the film ID: ");
 				int filmID = input.nextInt();
 				Film film = null;
+				
 				try {
 					film = db.findFilmById(filmID);
 					if (film != null) {
@@ -72,38 +74,13 @@ public class FilmQueryApp {
 				}
 
 				System.out.println(film);
-
 			}
 
 			if (selection == 3) {
 				System.out.println("Goodbye!");
 				menu = false;
-
 			}
 
 		}
-
-//	  if (selection == 2) {
-//		  System.out.println("Enter the search keyword: ");
-//		  int actorID = input.nextInt();
-//		  Actor actor = null;
-//		  
-//		  try {
-//				actor = db.findActorById(actorID);
-//			} catch (SQLException e) {
-//				System.out.println("The actor ID you entered was not found. Please enter another ID.");
-//				e.printStackTrace();
-//			}
-//		  
-//		  System.out.println(actor);
-//		  
-//	  }
-//	  
-//	  if (selection == 3) {
-//		  System.out.println("Goodbye!");
-//		  System.exit(0);
-//		  
-//	  }
 	}
-
 }
