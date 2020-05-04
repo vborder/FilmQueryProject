@@ -217,12 +217,12 @@ public class Film {
 	@Override
 	public String toString() {
 		String r = "Film id: " + id + "\n" + "Title: " + title + "\n" + "Description: " + description + "\n"
-				+ "Release year: " + releaseYear + "\n" + "Language: " + language + "\n";
-		
+				+ "Release year: " + releaseYear + "\n" + "Language: " + language + "\n" + "\n";
+
 		for (Actor actor : actors) {
-			r += "\n" + actor;
+			r += actor + "\n";
 		}
-		
+
 		return r;
 	}
 }

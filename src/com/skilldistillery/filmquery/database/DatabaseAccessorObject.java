@@ -77,8 +77,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return actor;
 	}
 
-	public Film findFilmByKeyword(String keyword) throws SQLException {
-		Film film = null;
+	public List<Film> findFilmByKeyword(String keyword) throws SQLException {
+		List<Film> films = new ArrayList<>();
 
 		String user = "student";
 		String pass = "student";
@@ -93,19 +93,27 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		ResultSet filmResult = stmt.executeQuery();
 
-		while (filmResult.next()) {
-			film = new Film();
-			film.setId(filmResult.getInt("id"));
-			film.setTitle(filmResult.getString("title"));
-			film.setReleaseYear(filmResult.getInt("release_year"));
-			film.setRating(filmResult.getString("rating"));
-			film.setDescription(filmResult.getString("description"));
-			film.setLanguage(filmResult.getString("name"));
-			film.setActors(findActorsByFilmId(film.getId()));
-			System.out.println(film);
+		try {
+			while (filmResult.next()) {
+				Film film = new Film();
+				film.setId(filmResult.getInt("id"));
+				film.setTitle(filmResult.getString("title"));
+				film.setReleaseYear(filmResult.getInt("release_year"));
+				film.setRating(filmResult.getString("rating"));
+				film.setDescription(filmResult.getString("description"));
+				film.setLanguage(filmResult.getString("name"));
+				film.setActors(findActorsByFilmId(film.getId()));
+				films.add(film);
+			}
+
+			filmResult.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
-		return film;
+		return films;
 	}
 
 	@Override
@@ -120,18 +128,21 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			String sql = "SELECT actor.id, actor.first_name, actor.last_name "
 					+ " FROM film JOIN film_actor ON film.id = film_actor.film_id "
 					+ "JOIN actor on film_actor.actor_id = actor.id " + " WHERE film_id = ?";
+
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
 			ResultSet rs = stmt.executeQuery();
+
 			while (rs.next()) {
-				int actorId = rs.getInt(1);
-				String firstName = rs.getString(2);
-				String lastName = rs.getString(3);
+				int actorId = rs.getInt("id");
+				String firstName = rs.getString("first_name");
+				String lastName = rs.getString("last_name");
 
 				Actor actor = new Actor(actorId, firstName, lastName);
 				actors.add(actor);
 
 			}
+
 			rs.close();
 			stmt.close();
 			conn.close();
@@ -141,5 +152,4 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		return actors;
 	}
-
 }
