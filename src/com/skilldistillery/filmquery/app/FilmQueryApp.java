@@ -38,8 +38,8 @@ public class FilmQueryApp {
 
 		while (menu) {
 			System.out.println("Choose an option: ");
-			System.out.println("1. Look for a film by its film ID ");
-			System.out.println("2. Look for a film by a search keyword ");
+			System.out.println("1. Look for a film by film ID ");
+			System.out.println("2. Look for a film by keyword search ");
 			System.out.println("3. Exit the application ");
 			int selection = input.nextInt();
 
@@ -53,7 +53,7 @@ public class FilmQueryApp {
 					if (film != null) {
 						System.out.println(film + "\n");
 					} else {
-						System.out.println("The film ID you entered was not found. Please enter another ID. \n");
+						System.out.println("The film ID you entered was not found. \n");
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -68,19 +68,20 @@ public class FilmQueryApp {
 
 				try {
 					film = db.findFilmByKeyword(keyword);
+					if (film != null) {
+						System.out.println(film);
+					} else {
+						System.out.println("The keyword you entered returned no results. \n");
+					}
 				} catch (SQLException e) {
-					System.out.println("The keyword you entered was not found. Please enter another keyword.");
 					e.printStackTrace();
 				}
-
-				System.out.println(film);
 			}
 
 			if (selection == 3) {
-				System.out.println("Goodbye!");
+				System.out.println("Thanks for using the Film Query App. Goodbye!");
 				menu = false;
 			}
-
 		}
 	}
 }
